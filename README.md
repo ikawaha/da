@@ -20,4 +20,5 @@ ids, lens := d.CommonPrefixSearch(strings.NewReader("電気通信大学大学院
 ## Copyright and license
 
 Copyright (c) 2014 ikawaha Rights Reserved.
+
 This software is released under the MIT License. See LICENSE.txt
