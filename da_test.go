@@ -259,3 +259,22 @@ func BenchmarkCommonPrefixSearch01(b *testing.B) {
 		d.CommonPrefixSearch(strings.NewReader("電気通信大学大学院電気通信学研究科"))
 	}
 }
+
+func BenchmarkCommonPrefixSearch02(b *testing.B) {
+	keywords := []string{
+		"電気",                //1
+		"電気通信",              //2
+		"電気通信大学",            //3
+		"電気通信大学院大学",         //4
+		"電気通信大学大学院",         //5
+		"電気通信大学電気通信学部",      //6
+		"電気通信大学大学院電気通信学研究科", //7
+	}
+
+	d := &DoubleArray{}
+	d.Build(keywords)
+	b.ResetTimer()
+	for i := 0; i < b.N; i++ {
+		d.CommonPrefixSearchString("電気通信大学大学院電気通信学研究科")
+	}
+}

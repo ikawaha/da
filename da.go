@@ -284,6 +284,24 @@ func (d *DoubleArray) CommonPrefixSearch(r Reader) (ids, lens []int) {
 	return
 }
 
+func (d *DoubleArray) CommonPrefixSearchString(input string) (ids, lens []int) {
+	var p, q int
+	bufLen := len(*d)
+	for i, size := 0, len(input); i < size; i++ {
+		p = q
+		q = (*d)[p].Base + int(input[i])
+		if q >= bufLen || (*d)[q].Check != p {
+			break
+		}
+		ahead := (*d)[q].Base + daTerminator
+		if ahead < bufLen && (*d)[ahead].Check == q && (*d)[ahead].Base <= 0 {
+			ids = append(ids, -(*d)[ahead].Base)
+			lens = append(lens, i+1)
+		}
+	}
+	return
+}
+
 // PrefixSearch returns the longest commom prefix keyword in an input if found.
 func (d *DoubleArray) PrefixSearch(r Reader) (id int, ok bool) {
 	var p, q, i int
